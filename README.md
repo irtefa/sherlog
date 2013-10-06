@@ -1,7 +1,11 @@
 #Directions & Examples
-First, make sure every machine in our distributed system is running the server program. Ths server program is located at 'logServer/server.go'. Each machine should also have Golang installed to run the server.
+First, make sure every machine in our distributed system is running the server program. Ths server program is located at 'sherLog/server.go'. Each machine should also have Golang installed in the machine to run the server.
 
-Make sure every machine in the distributed system has a metadata.txt file with any relevant information about the machine written in the file. This file should be located in the same directory as the 'server.go' program.
+We use the following command to start the server. The program needs the ip address of the machine where it is running.
+```
+go run server.go IP_ADDRESS_OF_THE_MACHINE
+```
+
 
 Now, on any one machine, to query for certain key-value pairs in log files, we must run the program 'logClient/grep_client.go'. To work properly, the client program uses a 'masterlist.txt' file located in the same directory. This file contains a list of the IP addresses of each machine in the system.
 
@@ -14,8 +18,9 @@ After running the client program with the arguments, the client will query the s
 
 Example queries=
 ```
-'go run grep_client.go hello world'
-'go run grep_client.go ^ERROR$ ^.*Hi.*$
+go run grep_client.go helloworld
+go run grep_client.go ^ERROR$ ^.*Hi.*$
+go run grep_client.go FAIL ^.*
 ```
 #Underlying Architecture
 
@@ -23,13 +28,7 @@ Our distributed logging system allows you to run system grep calls through all t
 
 The machine where we are querying from has a masterlist.txt that contains the ip addresses of all the machines we will query including itself. When we want to add a new machine we have to update the masterlist.txt. Similarly, when we want to remove a machine from the system we just delete the ip address of the machine from masterlist.txt.
 
-Each machine in our distributed system has a metadata.txt file that contains it's ip address, name of the machine and the log file it should operate on. The machine also has a logServer that runs a grep command on this log file upon request from our logClient.
-
 In order to make sure that our system is fault-tolerant we ignore machines that are down. Therefore, as soon as we observe that a machine in our system is down the whole system does not break down. In the worst case (where all machines are down), we return results from the machine that is invoking the grep_client.go.
-
-#Does our system work?
-
-Apart from testing the functionality manually, we created unit tests to make sure our system works. Our test generates a test log on a remote machine on the fly and runs a grep on it to check if we are retrieving results that matches with our expected results. The unit test considers different forms of data for example, rare, frequent and somewhat frequent strings. 
 
 #Average query latency
 We tested our system which contained 4 different machines containing a log file of size 137 MB each. This is how the results look like
