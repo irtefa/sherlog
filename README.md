@@ -1,9 +1,9 @@
 #Directions & Examples
 First, make sure every machine in our distributed system is running the server program. Ths server program is located at 'sherLog/server.go'. Each machine should also have Golang installed in the machine to run the server.
 
-We use the following command to start the server. The program needs the ip address of the machine where it is running.
+We use the following command to start the server. The program needs the path of the log file and the ip address of the machine where it is running.
 ```
-go run server.go IP_ADDRESS_OF_THE_MACHINE
+go run server.go LOG_FILE_PATH IP_ADDRESS_OF_THE_MACHINE
 ```
 
 
