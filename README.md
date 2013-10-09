@@ -55,7 +55,7 @@ We tested our system which contained 4 different machines containing a log file 
 
 Average latency: 622.2140236 ms
 
-###Frequent (Query results appera in individual log files 19.23%)
+###Frequent (Query results appear in individual log files 19.23%)
 
 1. 9.465099 s
 
