@@ -1,20 +1,20 @@
 #Directions & Examples
-First, make sure every machine in our distributed system is running the server program. Ths server program is located at 'sherLog/server.go'. Each machine should also have Golang installed in the machine to run the server.
+Each machine should in your distributed system should have Golang installed. Make sure every machine in your distributed system is running the server program.
 
-We use the following command to start the server. The program needs the path of the log file and the ip address of the machine where it is running.
+Use the following command to start the server. The program needs the path of the log file and the ip address of the machine where it is running.
 ```
 go run server.go LOG_FILE_PATH IP_ADDRESS_OF_THE_MACHINE
 ```
 
 
-Now, on any one machine, to query for certain key-value pairs in log files, we must run the program 'logClient/grep_client.go'. To work properly, the client program uses a 'masterlist.txt' file located in the same directory. This file contains a list of the IP addresses of each machine in the system.
+Now, on any machine, to query for certain key-value pairs in log files, you must run the program 'grep_client.go'. To query every machine in your system, the client program uses a 'masterlist.txt' file located in the directory where grep client is located. This file contains a list of the IP addresses of each machine in the system.
 
-TO run properly, the client program asks for two arguments, the first argument being the pattern matching for the key and the second argument for the value.
+To run properly, the client program asks for two arguments, the first argument being the pattern matching for the key and the second argument for the value.
 Ex: 'go run grep_client.go <keyPattern> <valuePattern>'
 
 Note: to ignore any particular pattern in the key or value, use a wildcard statement in the respective argument. Don't use '.*' as the '.' and the '*' symbol in the first position of an argument breaks all other arguments in Golang. As a replacement, use '^.*' as the wildcard statement, as this works well with our program.
 
-After running the client program with the arguments, the client will query the servers, and the response will be printed out on console.
+When you run the client program with the arguments, the client will query the servers, and the response will be printed out on console.
 
 Example queries=
 ```
@@ -22,6 +22,15 @@ go run grep_client.go helloworld
 go run grep_client.go ^ERROR$ ^.*Hi.*$
 go run grep_client.go FAIL ^.*
 ```
+
+Example output=
+```
+machine.1
+JOIN: 127.0.0.1 joined the system
+machine.2
+no matching patterns found.
+```
+
 #Underlying Architecture
 
 Our distributed logging system allows you to run system grep calls through all the machines in our system and returns the relevant matches back to the user. Grep is executed on each machine's log separately. The machines are independent in the sense that they do not wait for each other to complete. The client receives the response as soon as a machine completes executing grep on its log. As the machines are not waiting for each other there is no blocking in the execution process.
