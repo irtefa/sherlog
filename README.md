@@ -1,4 +1,4 @@
-#Directions & Examples
+# Directions & Examples
 Each machine should in your distributed system should have Golang installed. Make sure every machine in your distributed system is running the server program.
 
 Use the following command to start the server. The program needs the path of the log file and the ip address of the machine where it is running.
@@ -31,7 +31,7 @@ machine.2
 no matching patterns found.
 ```
 
-#Underlying Architecture
+# Underlying Architecture
 
 Our distributed logging system allows you to run system grep calls through all the machines in our system and returns the relevant matches back to the user. Grep is executed on each machine's log separately. The machines are independent in the sense that they do not wait for each other to complete. The client receives the response as soon as a machine completes executing grep on its log. As the machines are not waiting for each other there is no blocking in the execution process.
 
@@ -39,9 +39,9 @@ The machine where we are querying from has a masterlist.txt that contains the ip
 
 In order to make sure that our system is fault-tolerant we ignore machines that are down. Therefore, as soon as we observe that a machine in our system is down the whole system does not break down. In the worst case (where all machines are down), we return results from the machine that is invoking the grepClient.go.
 
-#Average query latency
+# Average query latency
 We tested our system which contained 4 different machines containing a log file of size 137 MB each. This is how the results look like
-###Rare (Query results appear in individual log files 3.85%)
+### Rare (Query results appear in individual log files 3.85%)
 
 1. 624.354182 ms
 
@@ -55,7 +55,7 @@ We tested our system which contained 4 different machines containing a log file 
 
 Average latency: 622.2140236 ms
 
-###Frequent (Query results appear in individual log files 19.23%)
+### Frequent (Query results appear in individual log files 19.23%)
 
 1. 9.465099 s
 
@@ -69,6 +69,6 @@ Average latency: 622.2140236 ms
 
 Average latency: 9.4580948596 s
 
-#Authors
-###Irtefa, Mohd
-###Lee, Stephen
+# Authors
+### Irtefa, Mohd
+### Lee, Stephen
